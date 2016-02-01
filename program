@@ -1,0 +1,412 @@
+// Gismeteo
+	public static void gismeteo() {
+		double[] maxArray = { 2.2, 2.7, 6.6, 13, 19.5, 24, 27, 26.5, 21, 15, 8.4, 3.7 };
+		double[] avArray = { -0.5, -0.2, 3.5, 9.4, 15.6, 20, 22.6, 22.3, 17.2, 11.6, 5.7, 1.1 };
+		double[] minArray = { -2.8, -2.6, 1, 6.6, 12.1, 16.3, 18.5, 18.2, 13.5,	8.6, 3.2, -1.2 };
+
+		double av1 = 0, av2 = 0, av3 = 0;
+		for (int i = 0; i < 12; i++) { // определим суммы температур по макс,
+										// средн и мин показателям
+			av1 += maxArray[i];
+			av2 += avArray[i];
+			av3 += minArray[i];
+		}
+		System.out.printf("Среднегодовая максимальная температура = %.2f градусов по Цельсию\n",av1 / 12);
+		System.out.printf("Среднегодовая средняя температура = %.2f градусов по Цельсию\n",	av2 / 12);
+		System.out.printf("Среднегодовая минимальная температура = %.2f градусов по Цельсию\n",	av3 / 12);
+
+		// найдем максимальный перепад средней температуры между соседними
+		// месяцами
+		double max = 0;
+		int month = 0;
+		for (int i = 0; i < avArray.length - 1; i++) {
+			if (Math.abs(avArray[i] - avArray[i + 1]) > max)
+				max = Math.abs(avArray[i] - avArray[i + 1]);
+			month = i;
+		}
+		System.out.println("Максимальный перепад между " + month + " и "
+				+ (month + 1) + " месяцами");
+	}
+
+	// Task 1
+	public static void f1() {
+		System.out.print("Введите количество строк -");
+		int M = sc.nextInt();
+		System.out.print("Введите количество столбцов -  ");
+		int N = sc.nextInt();
+		double[][] mas = new double[M][N];
+		double sum = 0;
+		int i, j, imin = 0, jmin = 0, imax = 0, jmax = 0;
+		for (i = 0; i < M; i++) {
+			for (j = 0; j < N; j++) {
+				mas[i][j] = Math.random() * 20;
+				System.out.printf("%.2f\t", mas[i][j]);
+				sum += mas[i][j];
+				if (mas[i][j] < mas[imin][jmin]) {
+					imin = i;
+					jmin = j;
+				}
+				if (mas[i][j] > mas[imax][jmax]) {
+					imax = i;
+					jmax = j;
+				}
+			}
+			System.out.println();
+		}
+
+		System.out.printf("Сумма элементов массива = %.2f\n", sum);
+		System.out.printf("Среднее арифметическое элементов массива = %.2f\n", sum / M / N);
+		System.out.printf("Минимальный элемент mas[%d][%d] = %.2f\n", imin,	jmin, mas[imin][jmin]);
+		System.out.printf("Максимальный элемент mas[%d][%d] = %.2f\n", imax, jmax, mas[imax][jmax]);
+
+	}
+
+	// Task 2
+	public static void f2() {
+		// Т.к. речь пойдет о главной и побочной диагоналях, работаем с
+		// квадратной матрицей
+		System.out.print("Введите размер квадратной матрицы -");
+		int N = sc.nextInt();
+		double[][] mas = new double[N][N];
+		int i, j;
+		double sum1 = 0, sum2 = 0;
+
+		// сформируем матрицу и распечатаем ее элементы
+		for (i = 0; i < N; i++) {
+			for (j = 0; j < N; j++) {
+				mas[i][j] = Math.random() * 20;
+				System.out.printf("%.2f   ", mas[i][j]);
+			}
+			System.out.println();
+		}
+
+		// найдем суммы
+		for (i = 0; i < N; i++) {
+			sum1 += mas[i][i];
+			sum2 += mas[i][N - i - 1];
+		}
+		System.out.printf("Сумма элементов главной диагонали = %.2f\n", sum1);
+		System.out.printf("Сумма элементов побочной диагонали = %.2f\n", sum2);
+	}
+
+	// Task 3
+	public static void f3() {
+		System.out.print("Введите количество строк -");
+		int M = sc.nextInt();
+		System.out.print("Введите количество столбцов -  ");
+		int N = sc.nextInt();
+		double[][] mas = new double[M][N];
+		int kol1 = 0, kol2 = 0;
+		int i, j;
+
+		// формируем матрицу и считаем количество положительных и отрицательных
+		// элементов
+		for (i = 0; i < M; i++) {
+			for (j = 0; j < N; j++) {
+				mas[i][j] = Math.random() * 20 - 10;
+				System.out.printf("%.2f\t", mas[i][j]);
+				if (mas[i][j] > 0)
+					kol1++;
+				else if (mas[i][j] < 0)
+					kol2++;
+			}
+			System.out.println();
+		}
+		System.out.println("Количество положительных элементов - " + kol1);
+		System.out.println("Количество отрицательных элементов - " + kol2);
+		System.out.println("Количество нулевых элементов - "
+				+ (M * N - kol1 - kol2));
+	}
+
+	// Task 4
+	public static void f4() {
+		System.out.print("Введите количество строк -");
+		int M = sc.nextInt();
+		System.out.print("Введите количество столбцов -  ");
+		int N = sc.nextInt();
+		double[][] mas = new double[M][N];
+		double sum;
+		int i, j;
+
+		// формируем матрицу и распечатываем ее
+		for (i = 0; i < M; i++) {
+			for (j = 0; j < N; j++) {
+				mas[i][j] = Math.random() * 20;
+				System.out.printf("%.2f\t", mas[i][j]);
+			}
+			System.out.println();
+		}
+
+		// найдем построчные суммы элементов
+		for (i = 0; i < M; i++) {
+			sum = 0;
+			for (j = 0; j < N; j++) {
+				sum += mas[i][j];
+			}
+			System.out.printf("Строка %d: сумма элементов - %.2f\n", i, sum);
+		}
+
+		// найдем постолбцовые суммы элементов
+		for (j = 0; j < N; j++) {
+			sum = 0;
+			for (i = 0; i < M; i++) {
+				sum += mas[i][j];
+			}
+			System.out.printf("Столбец %d: сумма элементов - %.2f\n", j, sum);
+		}
+
+	}
+
+	// Task 5
+	public static void f5() {
+		System.out.print("Введите количество строк -");
+		int M = sc.nextInt();
+		System.out.print("Введите количество столбцов -  ");
+		int N = sc.nextInt();
+		int[][] mas = new int[M][N];
+		int i, j;
+		for (i = 0; i < M; i++) {
+			for (j = 0; j < N; j++) {
+				mas[i][j] = i * 10 + j;
+				if (mas[i][j] < 10) {
+					System.out.printf("%3d", 0);
+					System.out.printf("%d", mas[i][j]);
+				} else
+					System.out.printf("%4d", mas[i][j]);
+			}
+			System.out.println();
+		}
+	}
+
+	// Task 6
+	public static void f6() {
+		int M;
+		do {
+			System.out.print("Введите четное количество строк -");
+			M = sc.nextInt();
+		} while (M % 2 == 1);
+		System.out.print("Введите количество столбцов -  ");
+		int N = sc.nextInt();
+		double[][] mas = new double[M][N];
+		int i, j;
+
+		// формируем матрицу и распечатываем ее
+		System.out.println("Первоначальная матрица");
+		for (i = 0; i < M; i++) {
+			for (j = 0; j < N; j++) {
+				mas[i][j] = Math.random() * 20;
+				System.out.printf("%.2f\t", mas[i][j]);
+			}
+			System.out.println();
+		}
+
+		double temp;
+		for (i = 0; i < M - 1; i += 2) {
+			for (j = 0; j < N; j++) {
+				temp = mas[i][j];
+				mas[i][j] = mas[i + 1][j];
+				mas[i + 1][j] = temp;
+			}
+		}
+		System.out.println("Матрица после перестановки строк");
+		for (i = 0; i < M; i++) {
+			for (j = 0; j < N; j++) {
+				System.out.printf("%.2f\t", mas[i][j]);
+			}
+			System.out.println();
+		}
+
+	}
+
+	// Task 7
+	public static void f7() {
+		System.out.print("Введите количество строк -");
+		int M = sc.nextInt();
+		System.out.print("Введите количество столбцов -  ");
+		int N = sc.nextInt();
+		double[][] mas = new double[M][N];
+		double sum = 0;
+		int i, j, imin, jmin, imax, jmax;
+
+		// формируем матрицу и распечатываем ее
+		for (i = 0; i < M; i++) {
+			for (j = 0; j < N; j++) {
+				mas[i][j] = Math.random() * 201 - 100;
+				System.out.printf("%.2f\t", mas[i][j]);
+			}
+			System.out.println();
+		}
+
+		imin = 0;
+		jmin = 0;
+		imax = 0;
+		jmax = 0;
+		for (i = 0; i < M; i++) {
+			for (j = 0; j < N; j++) {
+				if (mas[i][j] < mas[imin][jmin]) {
+					imin = i;
+					jmin = j;
+				}
+				if (mas[i][j] > mas[imax][jmax]) {
+					imax = i;
+					jmax = j;
+				}
+			}
+		}
+		// Учитываем, что в матрице может идти станачала минимум, а потом
+		// максимум,
+		// или же сначала максимум, а потом минимум
+		// В любом случае подсчитываем сумму элементов, расположенных между
+		// ними, без учета значений самих мин и макс
+		boolean flag = false;
+		label: for (i = 0; i < M; i++) {
+			for (j = 0; j < N; j++) {
+				if ((!flag)
+						&& ((i == imin && j == jmin) || (i == imax && j == jmax))) {
+					flag = true; // нашли начало последовательности
+					continue;
+				}
+				if (flag) {
+					if ((i == imin && j == jmin) || (i == imax && j == jmax))
+						break label; // конец последовательности
+					else
+						sum += mas[i][j]; // считаем...
+				}
+			}
+		}
+		System.out.printf("Сумма элементов = %.2f\n", sum);
+	}
+
+	// Task 8
+	public static void f8() {
+		System.out.print("Введите размер квадратной матрицы -");
+		int N = sc.nextInt();
+		int[][] mas = new int[N][N];
+		// выставляем начало в центр матрицы
+		int i = N / 2;
+		int j = N / 2;
+		// задаем границы перемещения
+		int imin = i;
+		int max_i = i; // влево вправо
+		int jmin = j;
+		int max_j = j; // вверх вниз
+		int direction = 0; // сначала пойдем влево
+		int z;
+		for (z = 1; z < N * N; z++) {
+			mas[i][j] = z;
+			switch (direction) {
+			case 0:
+				i -= 1; // движение влево
+				if (i < imin) { // проверка выхода за заполненную центральную
+								// часть слева
+					direction = 1; // меняем направление
+					imin = i; // увеличиваем заполненную часть влево
+				}
+				break;
+			case 1: // движение вверх
+				j -= 1;
+				if (j < jmin) {
+					direction = 2;
+					jmin = j;
+				}
+				break;
+			case 2: // движение вправо
+				i += 1;
+				if (i > max_i) {
+					direction = 3;
+					max_i = i;
+				}
+				break;
+			case 3: // движение вниз
+				j += 1;
+				if (j > max_j) {
+					direction = 0;
+					max_j = j;
+				}
+			}
+		}
+
+		for (i = 0; i < N; i++) {
+			for (j = 0; j < N; j++)
+				System.out.print(mas[i][j] + "\t");
+			System.out.println();
+		}
+	}
+
+	// Task 9
+	public static void f9() {
+		System.out.print("Введите размер квадратной матрицы -");
+		int N = sc.nextInt();
+		int[][] A = new int[N][N];
+		int z;
+		int i = 1, j;
+		int position = N / 2;
+		for (z = 1; z <= position; z++) {
+			for (j = z - 1; j < N - z + 1; j++)
+				A[z - 1][j] = i++;
+			for (j = z; j < N - z + 1; j++)
+				A[j][N - z] = i++;
+			for (j = N - z - 1; j >= z - 1; --j)
+				A[N - z][j] = i++;
+			for (j = N - z - 1; j >= z; j--)
+				A[j][z - 1] = i++;
+		}
+		if (N % 2 == 1)
+			A[position][position] = N * N;
+		for (i = 0; i < N; i++)
+			for (j = 0; j < N; j++) {
+				System.out.printf(" %4d ", A[i][j]);
+				if (j == N - 1)
+					System.out.println();
+			}
+
+	}
+
+	// Task 10
+	public static void f10() {
+		System.out.print("Введите количество строк -");
+		int M = sc.nextInt();
+		System.out.print("Введите количество столбцов -  ");
+		int N = sc.nextInt();
+		int[][] mas = new int[M][N];
+		int i, j, count = 1;
+
+		// формируем матрицу и распечатываем ее
+		for (i = 0; i < M; i++) {
+			for (j = 0; j < N; j++) {
+				mas[i][j] = count++;
+				System.out.printf("%4d", mas[i][j]);
+			}
+			System.out.println();
+		}
+	}
+
+	// Task 11
+	public static void f11() {
+		System.out.print("Введите количество строк -");
+		int M = sc.nextInt();
+		System.out.print("Введите количество столбцов -  ");
+		int N = sc.nextInt();
+		int[][] mas = new int[M][N];
+		int i, j;
+		int count = 1;
+
+		// формируем матрицу и распечатываем ее
+		for (i = 0; i < M; i++) {
+			if (i % 2 == 0) {
+				for (j = 0; j < N; j++) {
+					mas[i][j] = count++;
+				}
+			} else {
+				for (j = N - 1; j >= 0; j--) {
+					mas[i][j] = count++;
+				}
+			}
+		}
+		for (i = 0; i < M; i++) {
+			for (j = 0; j < N; j++) {
+				System.out.printf("%4d", mas[i][j]);
+			}
+			System.out.println();
+		}
+	}
